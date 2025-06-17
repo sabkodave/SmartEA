@@ -32,3 +32,24 @@ void OnTick()
    if(AutoTrade)
      ExecuteTrade(signal);
   }
+
+void ExecuteTrade(string signal)
+  {
+   if(signal!="BUY" && signal!="SELL")
+      return;
+
+   MqlTradeRequest request;
+   MqlTradeResult  result;
+   ZeroMemory(request);
+   ZeroMemory(result);
+
+   request.action   = TRADE_ACTION_DEAL;
+   request.symbol   = _Symbol;
+   request.magic    = MagicNumber;
+   request.deviation= Slippage;
+   request.volume   = 0.1;
+   request.type     = (signal=="BUY") ? ORDER_TYPE_BUY : ORDER_TYPE_SELL;
+   request.price    = (signal=="BUY") ? SymbolInfoDouble(_Symbol, SYMBOL_ASK) : SymbolInfoDouble(_Symbol, SYMBOL_BID);
+
+   OrderSend(request,result);
+  }

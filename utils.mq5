@@ -4,11 +4,8 @@ string GetFormattedTime() { return TimeToString(TimeCurrent(), TIME_DATE | TIME_
 
 bool EnsureWebRequestPermission(string url)
   {
-   string allowed = TerminalInfoString(TERMINAL_API_URL);
-   if(StringFind(allowed, url) < 0)
-     {
-      Print("[Utils] WebRequest to ", url, " may be blocked. Please allow it in Tools > Options > Expert Advisors.");
-      return false;
-     }
+   // In many cases the terminal restricts WebRequest calls to predefined URLs.
+   // This helper simply warns the user without blocking execution.
+   Print("[Utils] Ensure that WebRequest permissions include: ", url);
    return true;
   }
