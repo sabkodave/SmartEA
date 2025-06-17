@@ -21,11 +21,13 @@ void SendDataToAPI(string signal)
                 + "\"signal\":\"" + signal + "\""
                 + "}";
 
-   char postData[];
+   // Prepare request data
+   uchar postData[];
    StringToCharArray(json, postData);
-   char result[];
+   uchar result[];
    string headers = "Content-Type: application/json\r\n";
-   int res = WebRequest("POST", ApiURL, headers, 500, postData, result, NULL);
+   string result_headers = "";
+   int res = WebRequest("POST", ApiURL, headers, 500, postData, result, result_headers);
    if(res != 200)
      Print("[API] WebRequest failed. Code:", res, " | JSON:", json);
    else
